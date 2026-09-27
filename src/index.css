@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'HumaneMedium';
+  src: url('/fonts/63bf3e1c32ea7bb19e1bdfad_Humane-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HumaneBold';
+  src: url('/fonts/63bf3e1c32ea7b2c3d1bdf93_Humane-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BodoniSeventyTwo';
+  src: url('/fonts/63bf3e1c32ea7b80ef1bdf9f_bodoni-seventytwo-itc-book-italic.ttf') format('truetype');
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HelveticaNeueLight';
+  src: url('/fonts/63bf3e1c32ea7b11e01bdf94_HelveticaNeue-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'rader';
+  src: url('/fonts/rader/PPRader-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'rader';
+  src: url('/fonts/rader/PPRader-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'formula-narrow';
+  src: url('/fonts/formula/PPFormula-NarrowBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'formula-extended';
+  src: url('/fonts/formula/PPFormula-ExtendedBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'supply-mono';
+  src: url('/fonts/supply-mono/PPSupplyMono-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-rader {
+  font-family: 'rader', sans-serif !important;
+  font-style: italic !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+}
+
+.font-formula {
+  font-family: 'formula-narrow', sans-serif !important;
+}
+
+.font-formula-extended {
+  font-family: 'formula-extended', sans-serif !important;
+}
+
+.font-editorial,
+.font-newworld {
+  font-family: 'Playfair Display', 'Bodoni Moda', 'Instrument Serif', Georgia, serif !important;
+  letter-spacing: -0.01em;
+}
+
+@layer base {
+  :root {
+    --color-void-black: #080808;
+    --color-off-white: #f8f8f8;
+    --color-flare-red: #0038ff;
+    --color-electric-blue: #0038ff;
+    --color-neon-pink: #ff7bca;
+    --color-lime-green: #bfff0a;
+    --color-cool-gray: #dddee2;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--color-cool-gray);
+    color: var(--color-void-black);
+    font-family: 'HelveticaNeueLight', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+    selection-background-color: #0038ff;
+    selection-color: var(--color-off-white);
+  }
+
+  /* Custom Clean Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #080808;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-flare-red);
+  }
+}
+
+.font-humane {
+  font-family: 'HumaneMedium', sans-serif !important;
+  font-weight: 500 !important;
+}
+
+.font-humane-bold {
+  font-family: 'HumaneBold', sans-serif !important;
+  font-weight: 700 !important;
+}
+
+.font-bodoni {
+  font-family: 'BodoniSeventyTwo', serif;
+}
+
+.font-helvetica {
+  font-family: 'HelveticaNeueLight', sans-serif;
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 12s linear infinite;
+}
