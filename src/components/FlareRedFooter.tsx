@@ -37,7 +37,8 @@ function UnderlineLink({
 
 export default function FlareRedFooter() {
   const socialLinks = [
-    { name: 'Discord Hub', href: 'https://discord.com' },
+    { name: 'Discord Server', href: 'https://discord.gg/kjswHJhNwF' },
+    { name: 'WhatsApp Group', href: 'https://chat.whatsapp.com/FlTVlEFRyQA3ofrkmT42It' },
     { name: 'GitHub Org', href: 'https://github.com' },
     { name: 'X / Twitter', href: 'https://x.com' },
     { name: 'YouTube Live', href: 'https://youtube.com' },
@@ -83,8 +84,14 @@ export default function FlareRedFooter() {
               </UnderlineLink>
               <div className="flex items-center">
                 <span>/&nbsp;</span>
-                <UnderlineLink href="https://discord.com">
-                  discord.gg/loosecode
+                <UnderlineLink href="https://discord.gg/kjswHJhNwF">
+                  Discord Server
+                </UnderlineLink>
+              </div>
+              <div className="flex items-center">
+                <span>/&nbsp;</span>
+                <UnderlineLink href="https://chat.whatsapp.com/FlTVlEFRyQA3ofrkmT42It">
+                  WhatsApp Group
                 </UnderlineLink>
               </div>
             </div>

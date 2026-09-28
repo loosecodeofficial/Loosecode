@@ -1,7 +1,5 @@
 import { motion, MotionValue, useTransform } from 'framer-motion';
-import { ArrowDown, Terminal } from 'lucide-react';
 import heroBg from '../assets/herosectionbg.png';
-import { sounds } from '../utils/audio';
 
 export default function Hero({
   scrollYProgress,
@@ -30,7 +28,7 @@ export default function Hero({
       {/* Spacer to push content to the bottom cleanly */}
       <div className="flex-1 relative z-10" />
 
-      {/* Bottom Hero Subtext with Editorial Accents & Action Buttons */}
+      {/* Bottom Hero Subtext with Editorial Accents */}
       <div className="relative z-20 w-full flex flex-col md:flex-row items-center justify-between gap-6 pt-6 pb-2 sm:pb-4 text-white border-t border-white/20 mt-auto">
         {/* Editorial Builder Tagline */}
         <h2 className="text-base sm:text-lg md:text-xl font-helvetica uppercase text-center md:text-left max-w-xl leading-relaxed text-white drop-shadow-md">
@@ -47,27 +45,6 @@ export default function Hero({
             ship.
           </span>
         </h2>
-
-        {/* Action Button & Scroll Trigger */}
-        <div className="flex items-center gap-4">
-          <a
-            href="#events"
-            onClick={() => sounds.playBlip(550)}
-            onMouseEnter={() => sounds.playHover()}
-            className="flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-mono font-bold text-xs uppercase tracking-wider hover:bg-[#bfff0a] hover:text-black transition-all shadow-xl cursor-pointer"
-          >
-            <Terminal size={14} />
-            <span>Explore Sprints</span>
-          </a>
-
-          <a
-            href="#events"
-            aria-label="Scroll to events"
-            className="p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/20 hover:bg-white hover:text-black transition-all group"
-          >
-            <ArrowDown size={16} className="animate-bounce" />
-          </a>
-        </div>
       </div>
     </motion.div>
   );
