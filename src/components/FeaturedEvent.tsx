@@ -1,43 +1,15 @@
-import { motion, MotionValue, useTransform } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence, MotionValue, useTransform } from 'framer-motion';
+import { ExternalLink, Zap, Trophy, Calendar, Sparkles } from 'lucide-react';
 import { sounds } from '../utils/audio';
-
-const bentoTracks = [
-  {
-    id: '01',
-    title: 'CREATIVE CODE',
-    classes: '26 SPRINTS',
-    color: '#6C47FF',
-    textColor: '#ffffff',
-  },
-  {
-    id: '02',
-    title: 'AI AGENTS',
-    classes: '18 SPRINTS',
-    color: '#0038FF',
-    textColor: '#ffffff',
-  },
-  {
-    id: '03',
-    title: 'WASM & 3D',
-    classes: '32 SPRINTS',
-    color: '#99CCFF',
-    textColor: '#080808',
-  },
-  {
-    id: '04',
-    title: 'FULL-STACK',
-    classes: '14 SPRINTS',
-    color: '#B5E853',
-    textColor: '#080808',
-  },
-];
 
 export default function FeaturedEvent({
   scrollYProgress,
 }: {
   scrollYProgress?: MotionValue<number>;
 }) {
+  const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
+
   const rotate = useTransform(scrollYProgress || ({} as any), [0, 1], [5, 0]);
   const scale = useTransform(scrollYProgress || ({} as any), [0, 1], [0.8, 1]);
 
@@ -45,12 +17,12 @@ export default function FeaturedEvent({
     <motion.div
       style={scrollYProgress ? { scale, rotate } : {}}
       id="events"
-      className="w-full min-h-screen bg-[#1C1C1C] text-white sticky top-0 left-0 z-20 pt-20 sm:pt-24 md:pt-28 pb-10 sm:pb-14 px-4 sm:px-8 md:px-12 lg:px-16 flex flex-col justify-center border-t-2 border-white/10 origin-center select-none"
+      className="w-full min-h-screen bg-[#0d0d0d] text-white sticky top-0 left-0 z-20 pt-20 sm:pt-24 md:pt-28 pb-16 px-4 sm:px-8 md:px-12 lg:px-16 flex flex-col justify-center border-t border-white/10 origin-center select-none overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto w-full flex flex-col justify-center">
-        {/* Top Header: EVENTS + Editorial Subtitle */}
-        <div className="w-full flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 pb-4 sm:pb-6 mb-4 sm:mb-6 border-b border-white/10">
-          <span className="flex text-[110px] sm:text-[150px] md:text-[180px] lg:text-[210px] uppercase leading-[0.8] font-humane font-normal text-white overflow-hidden">
+      <div className="max-w-6xl mx-auto w-full flex flex-col justify-center">
+        {/* Top Header: EVENTS + Subtitle */}
+        <div className="w-full flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 pb-6 mb-6 border-b border-white/10">
+          <span className="flex text-[110px] sm:text-[140px] md:text-[170px] lg:text-[190px] uppercase leading-[0.78] font-humane font-normal text-white tracking-tight">
             {'events'.split('').map((item: string, i: number) => (
               <div key={i} className="overflow-hidden">
                 <motion.p
@@ -69,91 +41,189 @@ export default function FeaturedEvent({
             ))}
           </span>
 
-          <h2 className="text-sm sm:text-base md:text-xl font-helvetica uppercase text-left lg:text-right max-w-sm sm:max-w-md leading-tight text-white">
+          <h2 className="text-xs sm:text-sm md:text-base font-helvetica uppercase text-left lg:text-right max-w-sm sm:max-w-md leading-relaxed text-gray-300">
             Our virtual hackathons & sprints feature the{' '}
-            <span className="text-xl sm:text-2xl md:text-3xl font-bodoni lowercase text-[#bfff0a]">
+            <span className="text-lg sm:text-xl font-bodoni lowercase text-[#bfff0a]">
               top talent{' '}
             </span>
             in the design & development{' '}
-            <span className="text-xl sm:text-2xl md:text-3xl font-bodoni lowercase text-[#ff7bca]">
+            <span className="text-lg sm:text-xl font-bodoni lowercase text-[#ff7bca]">
               space.
             </span>
           </h2>
         </div>
 
-        {/* Bento Grid: Fitted to screen height with matching left/right card heights */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-stretch">
-          {/* Left Master Card (Yellow / Gold) - Fits perfectly in viewport */}
-          <motion.div
-            whileHover={{ scale: 1.01 }}
-            className="lg:col-span-6 bg-[#FFCC4D] text-[#080808] rounded-[24px] sm:rounded-[32px] p-5 sm:p-7 md:p-8 flex flex-col justify-between shadow-2xl relative border-2 border-black min-h-[280px] sm:h-[340px] md:h-[370px]"
-          >
-            {/* Main Headline with exact reference styling & circled badge */}
-            <div className="mt-1">
-              <h3 className="text-2xl sm:text-4xl md:text-[2.8rem] font-bold uppercase tracking-tight leading-[0.92] text-black font-['Oswald',sans-serif] select-none">
-                EXPLORE{' '}
-                <span className="relative inline-block px-2.5 sm:px-3 py-0.5 border-2 sm:border-3 border-black rounded-full italic font-sans text-xl sm:text-3xl align-middle mx-1">
-                  48H+
-                </span>
-                <br />
-                SHIP-A-THONS
-                <br />
-                AND GAIN NEW
-                <br />
-                SKILLS
-              </h3>
-            </div>
+        {/* Toggle Switch Bar: UPCOMING EVENTS vs PAST EVENTS */}
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-1 p-1 bg-white/5 border border-white/15 rounded-full backdrop-blur-md">
+            <button
+              onClick={() => {
+                sounds.playPop();
+                setActiveTab('upcoming');
+              }}
+              onMouseEnter={() => sounds.playHover()}
+              className={`relative px-4 py-1.5 rounded-full text-xs font-mono font-bold uppercase transition-all duration-300 cursor-pointer ${
+                activeTab === 'upcoming'
+                  ? 'bg-[#B3EB16] text-black shadow-md'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              Upcoming Events
+            </button>
+            <button
+              onClick={() => {
+                sounds.playPop();
+                setActiveTab('past');
+              }}
+              onMouseEnter={() => sounds.playHover()}
+              className={`relative px-4 py-1.5 rounded-full text-xs font-mono font-bold uppercase transition-all duration-300 cursor-pointer ${
+                activeTab === 'past'
+                  ? 'bg-[#B3EB16] text-black shadow-md'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              Past Events
+            </button>
+          </div>
 
-            {/* Bottom Action Arrow Button */}
-            <div className="flex items-center justify-between pt-3">
-              <span className="text-[11px] sm:text-xs font-mono font-bold uppercase text-black/70">
-                ACTIVE SEASON 04 • $15,000 IN GRANTS
-              </span>
-              <a
-                href="#contact"
-                onClick={() => sounds.playPop()}
-                onMouseEnter={() => sounds.playHover()}
-                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black text-white flex items-center justify-center hover:bg-[#0038ff] hover:scale-110 transition-all shadow-xl cursor-pointer"
-                aria-label="Register for event"
-              >
-                <ArrowUpRight size={20} />
-              </a>
-            </div>
-          </motion.div>
+          <span className="hidden sm:inline-block font-mono text-[11px] text-gray-400 uppercase tracking-widest">
+            {activeTab === 'upcoming' ? '// 1 LIVE EVENT' : '// 0 PAST EVENTS'}
+          </span>
+        </div>
 
-          {/* Right 4 Bento Track Cards (2x2 Grid) matching exact reference height */}
-          <div className="lg:col-span-6 grid grid-cols-2 gap-3 sm:gap-4 min-h-[280px] sm:h-[340px] md:h-[370px]">
-            {bentoTracks.map((track) => (
-              <motion.div
-                key={track.id}
-                whileHover={{ y: -3, scale: 1.02 }}
-                onMouseEnter={() => sounds.playHover()}
-                className="rounded-[20px] sm:rounded-[26px] p-4 sm:p-5 flex flex-col justify-between shadow-xl border-2 border-black cursor-pointer transition-all min-h-[132px] sm:h-[162px] md:h-[177px]"
-                style={{
-                  backgroundColor: track.color,
-                  color: track.textColor,
-                }}
-              >
-                {/* Title & Subtitle in clean Oswald font */}
-                <div>
-                  <h4 className="text-base sm:text-xl md:text-2xl font-bold uppercase tracking-tight leading-tight font-['Oswald',sans-serif] mb-0.5 sm:mb-1">
-                    {track.title}
-                  </h4>
-                  <p className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider opacity-80">
-                    {track.classes}
-                  </p>
+        {/* Tab Content Display */}
+        <AnimatePresence mode="wait">
+          {activeTab === 'upcoming' ? (
+            /* Upcoming Events Card (Rizz & Code) */
+            <motion.div
+              key="upcoming-view"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+              className="w-full bg-[#141417] border border-white/15 rounded-[32px] sm:rounded-[40px] p-6 sm:p-8 md:p-10 shadow-2xl relative overflow-hidden group"
+            >
+              {/* Ambient Glows */}
+              <div className="absolute -top-32 -left-32 w-80 h-80 bg-[#0052FF]/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-[#B3EB16]/15 rounded-full blur-3xl pointer-events-none" />
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                {/* Left Column: Banner Image */}
+                <div className="lg:col-span-5 flex justify-center">
+                  <a
+                    href="https://luma.com/2tu7l2wx"
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => sounds.playBlip(700)}
+                    onMouseEnter={() => sounds.playHover()}
+                    className="relative block w-full max-w-[360px] aspect-square rounded-[24px] sm:rounded-[28px] overflow-hidden border border-white/20 shadow-2xl group/img cursor-pointer"
+                  >
+                    <img
+                      src="/images/rizzcode_banner.jpg"
+                      alt="Rizz & Code 2026 Event Banner"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"
+                    />
+                  </a>
                 </div>
 
-                {/* Bottom Action Arrow Button */}
-                <div className="flex items-end justify-end">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black text-white flex items-center justify-center transition-transform hover:scale-110 shadow-md">
-                    <ArrowUpRight size={16} />
+                {/* Right Column: Event Details & Action */}
+                {/* Right Column: Event Details & Action */}
+                <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
+                  <div>
+                    {/* Compact Badges */}
+                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#0052FF] text-white font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border border-white/20">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#B3EB16] animate-ping" />
+                        ONLINE HACKATHON
+                      </span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-white/90 font-mono text-[10px] sm:text-[11px] font-bold uppercase border border-white/10">
+                        OCT 1 - OCT 17
+                      </span>
+                    </div>
+
+                    {/* Event Title & Tagline */}
+                    <h3 className="text-4xl sm:text-5xl md:text-6xl font-extrabold uppercase tracking-tight text-white font-['Oswald',sans-serif] leading-none">
+                      RIZZ & CODE 2026
+                    </h3>
+                    <p className="text-sm sm:text-base font-mono font-bold text-[#B3EB16] mt-2 tracking-wide uppercase">
+                      "Code Hard. Rizz Harder."
+                    </p>
+
+                    {/* Description */}
+                    <p className="text-xs sm:text-sm text-gray-300 font-sans mt-3 leading-relaxed max-w-xl">
+                      An online hackathon for engineering students, developers, freshers, and early-career builders. Identify a problem, design a solution, and build a functional project with AI, Web, Mobile, Cloud, Automation, or any stack of your choice.
+                    </p>
+
+                    {/* Highlights */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-5 pt-5 border-t border-white/10 text-xs font-mono text-gray-300">
+                      <div className="flex items-center gap-2">
+                        <Zap size={15} className="text-[#B3EB16] shrink-0" />
+                        <span>48H+ Sprint</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Trophy size={15} className="text-[#B3EB16] shrink-0" />
+                        <span>Revealed Soon</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Calendar size={15} className="text-[#B3EB16] shrink-0" />
+                        <span>Virtual & Global</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Button */}
+                  <div className="pt-2">
+                    <a
+                      href="https://luma.com/2tu7l2wx"
+                      target="_blank"
+                      rel="noreferrer"
+                      onMouseEnter={() => sounds.playHover()}
+                      onClick={() => sounds.playBlip(700)}
+                      className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-[#B3EB16] text-black font-extrabold text-xs sm:text-sm uppercase tracking-wider hover:bg-white hover:scale-[1.03] transition-all shadow-xl cursor-pointer"
+                    >
+                      <span>REGISTER ON LUMA</span>
+                      <ExternalLink size={16} />
+                    </a>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+              </div>
+            </motion.div>
+          ) : (
+            /* Clean Empty State for Past Events */
+            <motion.div
+              key="past-empty-view"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+              className="w-full bg-[#141417] border border-white/15 rounded-[32px] sm:rounded-[40px] p-8 sm:p-12 text-center flex flex-col items-center justify-center min-h-[320px] relative overflow-hidden shadow-2xl"
+            >
+              <div className="absolute -top-32 -left-32 w-80 h-80 bg-[#0052FF]/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#B3EB16] mb-4">
+                <Sparkles size={28} />
+              </div>
+              <span className="text-xs font-mono text-[#B3EB16] font-bold uppercase tracking-widest mb-1">
+                // ARCHIVE STATUS
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white font-['Oswald',sans-serif]">
+                NO PAST EVENTS YET
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-400 font-sans mt-2 max-w-md leading-relaxed">
+                LooseCode is just getting started! Our upcoming hackathons, sprint showcases, and winner archives will appear here after completion.
+              </p>
+              <button
+                onClick={() => {
+                  sounds.playPop();
+                  setActiveTab('upcoming');
+                }}
+                onMouseEnter={() => sounds.playHover()}
+                className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#B3EB16] text-black font-extrabold text-xs uppercase tracking-wider hover:bg-white transition-all cursor-pointer shadow-lg"
+              >
+                <span>VIEW UPCOMING EVENT</span>
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.div>
   );
