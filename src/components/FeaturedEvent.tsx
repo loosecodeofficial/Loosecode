@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence, MotionValue, useTransform } from 'framer-motion';
 import { ExternalLink, Zap, Trophy, Calendar, Sparkles } from 'lucide-react';
 import { sounds } from '../utils/audio';
+import { ShinyButton } from '@/components/ui/shiny-button';
 
 export default function FeaturedEvent({
   scrollYProgress,
@@ -53,36 +54,55 @@ export default function FeaturedEvent({
           </h2>
         </div>
 
-        {/* Toggle Switch Bar: UPCOMING EVENTS vs PAST EVENTS */}
+        {/* Toggle Switch Bar: UPCOMING vs PAST (Minimalist Editorial Style) */}
         <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-1 p-1 bg-white/5 border border-white/15 rounded-full backdrop-blur-md">
+          <div className="inline-flex items-center p-1.5 bg-[#121214] border-2 border-white/20 rounded-full shadow-2xl backdrop-blur-md">
             <button
               onClick={() => {
                 sounds.playPop();
                 setActiveTab('upcoming');
               }}
               onMouseEnter={() => sounds.playHover()}
-              className={`relative px-4 py-1.5 rounded-full text-xs font-mono font-bold uppercase transition-all duration-300 cursor-pointer ${
-                activeTab === 'upcoming'
-                  ? 'bg-[#B3EB16] text-black shadow-md'
-                  : 'text-gray-400 hover:text-white'
-              }`}
+              className={`relative px-6 sm:px-8 py-2 sm:py-2.5 rounded-full text-sm sm:text-base font-medium transition-colors duration-200 cursor-pointer select-none ${activeTab === 'upcoming' ? 'text-black' : 'text-white hover:text-white/80'
+                }`}
             >
-              Upcoming Events
+              {activeTab === 'upcoming' && (
+                <motion.div
+                  layoutId="activeEventTabPill"
+                  className="absolute inset-0 bg-white rounded-full shadow-md"
+                  transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                />
+              )}
+              <span className="relative z-10 inline-flex items-start tracking-tight">
+                Upcoming
+                <span className="text-[10px] sm:text-[11px] font-mono font-medium -top-1.5 relative ml-0.5">
+                  01
+                </span>
+              </span>
             </button>
+
             <button
               onClick={() => {
                 sounds.playPop();
                 setActiveTab('past');
               }}
               onMouseEnter={() => sounds.playHover()}
-              className={`relative px-4 py-1.5 rounded-full text-xs font-mono font-bold uppercase transition-all duration-300 cursor-pointer ${
-                activeTab === 'past'
-                  ? 'bg-[#B3EB16] text-black shadow-md'
-                  : 'text-gray-400 hover:text-white'
-              }`}
+              className={`relative px-6 sm:px-8 py-2 sm:py-2.5 rounded-full text-sm sm:text-base font-medium transition-colors duration-200 cursor-pointer select-none ${activeTab === 'past' ? 'text-black' : 'text-white hover:text-white/80'
+                }`}
             >
-              Past Events
+              {activeTab === 'past' && (
+                <motion.div
+                  layoutId="activeEventTabPill"
+                  className="absolute inset-0 bg-white rounded-full shadow-md"
+                  transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                />
+              )}
+              <span className="relative z-10 inline-flex items-start tracking-tight">
+                Past
+                <span className="text-[10px] sm:text-[11px] font-mono font-medium -top-1.5 relative ml-0.5">
+                  02
+                </span>
+              </span>
             </button>
           </div>
 
@@ -105,7 +125,7 @@ export default function FeaturedEvent({
             >
               {/* Ambient Glows */}
               <div className="absolute -top-32 -left-32 w-80 h-80 bg-[#0052FF]/20 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-[#B3EB16]/15 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-[#0052FF]/25 rounded-full blur-3xl pointer-events-none" />
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
                 {/* Left Column: Banner Image */}
@@ -127,13 +147,12 @@ export default function FeaturedEvent({
                 </div>
 
                 {/* Right Column: Event Details & Action */}
-                {/* Right Column: Event Details & Action */}
                 <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
                   <div>
                     {/* Compact Badges */}
                     <div className="flex flex-wrap items-center gap-2 mb-3">
                       <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#0052FF] text-white font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border border-white/20">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#B3EB16] animate-ping" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
                         ONLINE HACKATHON
                       </span>
                       <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-white/90 font-mono text-[10px] sm:text-[11px] font-bold uppercase border border-white/10">
@@ -145,7 +164,7 @@ export default function FeaturedEvent({
                     <h3 className="text-4xl sm:text-5xl md:text-6xl font-extrabold uppercase tracking-tight text-white font-['Oswald',sans-serif] leading-none">
                       RIZZ & CODE 2026
                     </h3>
-                    <p className="text-sm sm:text-base font-mono font-bold text-[#B3EB16] mt-2 tracking-wide uppercase">
+                    <p className="text-sm sm:text-base font-mono font-bold text-white mt-2 tracking-wide uppercase">
                       "Code Hard. Rizz Harder."
                     </p>
 
@@ -155,35 +174,34 @@ export default function FeaturedEvent({
                     </p>
 
                     {/* Highlights */}
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-5 pt-5 border-t border-white/10 text-xs font-mono text-gray-300">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-5 pt-5 border-t border-white/10 text-xs font-mono text-white">
                       <div className="flex items-center gap-2">
-                        <Zap size={15} className="text-[#B3EB16] shrink-0" />
+                        <Zap size={15} className="text-white shrink-0" />
                         <span>48H+ Sprint</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Trophy size={15} className="text-[#B3EB16] shrink-0" />
+                        <Trophy size={15} className="text-white shrink-0" />
                         <span>Revealed Soon</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Calendar size={15} className="text-[#B3EB16] shrink-0" />
+                        <Calendar size={15} className="text-white shrink-0" />
                         <span>Virtual & Global</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Action Button */}
+                  {/* Action Button - Shiny Button */}
                   <div className="pt-2">
-                    <a
+                    <ShinyButton
                       href="https://luma.com/2tu7l2wx"
                       target="_blank"
                       rel="noreferrer"
-                      onMouseEnter={() => sounds.playHover()}
                       onClick={() => sounds.playBlip(700)}
-                      className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-[#B3EB16] text-black font-extrabold text-xs sm:text-sm uppercase tracking-wider hover:bg-white hover:scale-[1.03] transition-all shadow-xl cursor-pointer"
+                      className="uppercase tracking-wider font-mono font-bold text-xs sm:text-sm"
                     >
-                      <span>REGISTER ON LUMA</span>
+                      REGISTER ON LUMA
                       <ExternalLink size={16} />
-                    </a>
+                    </ShinyButton>
                   </div>
                 </div>
               </div>

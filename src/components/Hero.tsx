@@ -1,5 +1,6 @@
 import { motion, MotionValue, useTransform } from 'framer-motion';
 import heroBg from '../assets/herosectionbg.png';
+import mobileHeroBg from '../assets/mobileheroimage.png';
 
 export default function Hero({
   scrollYProgress,
@@ -15,11 +16,18 @@ export default function Hero({
       id="manifesto"
       className="w-full h-screen relative text-white overflow-hidden flex flex-col justify-between p-6 sm:p-10 md:p-12 select-none sticky top-0 left-0 z-10 origin-center bg-black"
     >
-      {/* Background Hero Image - Positioned to show full LOOSECODE text & Earth */}
+      {/* Desktop Hero Image - Preserved exactly as it is */}
       <img
         src={heroBg}
         alt="Hero Background"
-        className="absolute inset-0 w-full h-full object-cover object-left md:object-[15%_center] translate-x-4 sm:translate-x-8 md:translate-x-14 pointer-events-none z-0 scale-90 sm:scale-[0.92] transition-all duration-300"
+        className="hidden md:block absolute inset-0 w-full h-full object-cover object-left md:object-[15%_center] translate-x-4 sm:translate-x-8 md:translate-x-14 pointer-events-none z-0 scale-90 sm:scale-[0.92] transition-all duration-300"
+      />
+
+      {/* Mobile Hero Image - Only for mobile devices (< 768px) */}
+      <img
+        src={mobileHeroBg}
+        alt="Mobile Hero Background"
+        className="block md:hidden absolute inset-0 w-full h-full object-cover object-center pointer-events-none z-0 transition-all duration-300"
       />
 
       {/* Top Spacer for Navbar */}

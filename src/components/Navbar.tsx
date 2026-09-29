@@ -72,9 +72,8 @@ export default function Navbar() {
       <header className="fixed top-0 left-0 w-full z-50 pointer-events-none">
         {/* Top Bar matching Flow Party structure */}
         <div
-          className={`w-full flex justify-between items-center py-4 sm:py-5 px-5 sm:px-10 transition-all duration-300 ${
-            isScrolled ? 'bg-[#080808]/40 backdrop-blur-sm' : 'bg-transparent'
-          }`}
+          className={`w-full flex justify-between items-center py-4 sm:py-5 px-5 sm:px-10 transition-all duration-300 ${isScrolled ? 'bg-[#080808]/40 backdrop-blur-sm' : 'bg-transparent'
+            }`}
         >
           {/* Left Side: LooseCode Brand Logo */}
           <div className="pointer-events-auto flex items-center gap-3">
@@ -164,19 +163,16 @@ export default function Navbar() {
                     className="cursor-pointer flex flex-col items-center justify-center p-1"
                   >
                     <div
-                      className={`w-[26px] h-[2.5px] rounded-full transition-all duration-300 bg-[#1c1c1c] ${
-                        isOpen ? 'rotate-45 translate-y-[2.5px]' : 'rotate-0 mb-1'
-                      }`}
+                      className={`w-[26px] h-[2.5px] rounded-full transition-all duration-300 bg-[#1c1c1c] ${isOpen ? 'rotate-45 translate-y-[2.5px]' : 'rotate-0 mb-1'
+                        }`}
                     />
                     <div
-                      className={`w-[26px] h-[2.5px] rounded-full transition-all duration-200 bg-[#1c1c1c] ${
-                        isOpen ? 'opacity-0 scale-0 my-0' : 'opacity-100 mb-1'
-                      }`}
+                      className={`w-[26px] h-[2.5px] rounded-full transition-all duration-200 bg-[#1c1c1c] ${isOpen ? 'opacity-0 scale-0 my-0' : 'opacity-100 mb-1'
+                        }`}
                     />
                     <div
-                      className={`w-[26px] h-[2.5px] rounded-full transition-all duration-300 bg-[#1c1c1c] ${
-                        isOpen ? '-rotate-45 -translate-y-[2.5px]' : 'rotate-0'
-                      }`}
+                      className={`w-[26px] h-[2.5px] rounded-full transition-all duration-300 bg-[#1c1c1c] ${isOpen ? '-rotate-45 -translate-y-[2.5px]' : 'rotate-0'
+                        }`}
                     />
                   </button>
                 </div>

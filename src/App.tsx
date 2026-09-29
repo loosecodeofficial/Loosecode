@@ -12,8 +12,10 @@ import WhatIsLooseCode from './components/WhatIsLooseCode';
 import WhatsHappening from './components/WhatsHappening';
 import FlowFooter from './components/FlowFooter';
 import FlareRedFooter from './components/FlareRedFooter';
+import ManifestoPage from './pages/ManifestoPage';
+import RulesPage from './pages/RulesPage';
 
-export default function App() {
+function HomePage() {
   const heroEventContainer = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroEventContainer,
@@ -22,6 +24,10 @@ export default function App() {
 
   // Initialize Lenis smooth scroll and connect with GSAP ScrollTrigger
   useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -68,4 +74,18 @@ export default function App() {
       <FlareRedFooter />
     </div>
   );
+}
+
+export default function App() {
+  const path = window.location.pathname;
+
+  if (path === '/manifesto' || path.startsWith('/manifesto')) {
+    return <ManifestoPage />;
+  }
+
+  if (path === '/rules' || path.startsWith('/rules')) {
+    return <RulesPage />;
+  }
+
+  return <HomePage />;
 }
