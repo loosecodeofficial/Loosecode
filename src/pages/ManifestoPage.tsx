@@ -4,11 +4,7 @@ import { sounds } from '../utils/audio';
 import FlareRedFooter from '../components/FlareRedFooter';
 import logoImg from '../assets/logo.png';
 
-interface ManifestoPageProps {
-  onNavigate?: (path: string) => void;
-}
-
-export default function ManifestoPage({ onNavigate }: ManifestoPageProps) {
+export default function ManifestoPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -567,7 +563,7 @@ export default function ManifestoPage({ onNavigate }: ManifestoPageProps) {
       </main>
 
       {/* Keep the Existing LooseCode Footer on the Manifesto Page */}
-      <FlareRedFooter onNavigate={onNavigate} />
+      <FlareRedFooter />
     </div>
   );
 }

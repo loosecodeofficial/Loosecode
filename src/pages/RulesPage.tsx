@@ -1,14 +1,10 @@
 import { useEffect } from 'react';
-import { ArrowLeft, ShieldCheck, Scale, Terminal, Users, Lock, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, Scale, Terminal } from 'lucide-react';
 import { sounds } from '../utils/audio';
 import FlareRedFooter from '../components/FlareRedFooter';
 import logoImg from '../assets/logo.png';
 
-interface RulesPageProps {
-  onNavigate?: (path: string) => void;
-}
-
-export default function RulesPage({ onNavigate }: RulesPageProps) {
+export default function RulesPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -419,7 +415,7 @@ export default function RulesPage({ onNavigate }: RulesPageProps) {
       </main>
 
       {/* Retain Existing LooseCode Footer */}
-      <FlareRedFooter onNavigate={onNavigate} />
+      <FlareRedFooter />
     </div>
   );
 }

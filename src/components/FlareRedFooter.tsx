@@ -38,7 +38,7 @@ function UnderlineLink({
   );
 }
 
-export default function FlareRedFooter({ onNavigate }: { onNavigate?: (path: string) => void }) {
+export default function FlareRedFooter() {
   const socialLinks = [
     { name: 'Discord Server', href: 'https://discord.gg/kjswHJhNwF' },
     { name: 'WhatsApp Group', href: 'https://chat.whatsapp.com/FlTVlEFRyQA3ofrkmT42It' },
