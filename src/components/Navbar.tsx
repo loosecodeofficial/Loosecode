@@ -99,12 +99,12 @@ export default function Navbar() {
 
           {/* Center: Exact Hanging Flow Party Lime Dropdown Menu */}
           {/* IMPORTANT: outer wrapper must be pointer-events-none so it doesn't block page content below */}
-          <div className={`pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 ${isOpen ? 'z-[100]' : 'z-10'}`}>
+          <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 z-[100]">
             <motion.div
               initial={{ y: -430 }}
               animate={{ y: isOpen ? -20 : -430 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className={`w-[92vw] max-w-[520px] flex flex-col items-center ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
+              className="w-[92vw] max-w-[520px] flex flex-col items-center pointer-events-auto"
             >
               {/* Top Menu Card with lime background */}
               <div className="bg-[#B3EB16] p-8 sm:p-10 w-full rounded-[45px] -mb-24 z-10 shadow-2xl">
@@ -150,7 +150,7 @@ export default function Navbar() {
                   sounds.playPop();
                   setIsOpen(!isOpen);
                 }}
-                className="relative w-full cursor-pointer select-none pointer-events-auto"
+                className="relative w-full cursor-pointer select-none"
               >
                 <img
                   src="/icons/menuDrop.svg"
