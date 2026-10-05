@@ -74,37 +74,37 @@ export default function Navbar() {
       <header className="fixed top-0 left-0 w-full z-50 pointer-events-none">
         {/* Top Bar matching Flow Party structure */}
         <div
-          className={`w-full flex justify-between items-center py-4 sm:py-5 px-5 sm:px-10 transition-all duration-300 ${isScrolled ? 'bg-[#080808]/40 backdrop-blur-sm' : 'bg-transparent'
+          className={`w-full flex justify-between items-center py-3 sm:py-5 px-3 sm:px-10 transition-all duration-300 ${isScrolled ? 'bg-[#080808]/40 backdrop-blur-sm' : 'bg-transparent'
             }`}
         >
           {/* Left Side: LooseCode Brand Logo */}
-          <div className="pointer-events-auto flex items-center gap-3">
+          <div className="pointer-events-auto relative z-20 flex items-center gap-2 sm:gap-3 shrink-0">
             <a
               href="#"
               onMouseEnter={() => sounds.playHover()}
-              className="flex items-center gap-3 group cursor-pointer"
+              className="flex items-center gap-2 sm:gap-3 group cursor-pointer"
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden flex items-center justify-center shadow-lg border border-white/20 group-hover:scale-105 transition-transform duration-300 shrink-0 bg-[#0038ff]">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden flex items-center justify-center shadow-lg border border-white/20 group-hover:scale-105 transition-transform duration-300 shrink-0 bg-[#0038ff]">
                 <img
                   src={logoImg}
                   alt="LooseCode Logo"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <span className="font-['Space_Grotesk',sans-serif] font-bold tracking-tight text-xl sm:text-2xl text-white select-none flex items-center">
-                LOOSECODE<span className="text-white/70 text-xs font-medium ml-1">™</span>
+              <span className="font-['Space_Grotesk',sans-serif] font-bold tracking-tight text-sm sm:text-2xl text-white select-none flex items-center">
+                LOOSECODE<span className="text-white/70 text-[10px] sm:text-xs font-medium ml-0.5 sm:ml-1">™</span>
               </span>
             </a>
           </div>
 
           {/* Center: Exact Hanging Flow Party Lime Dropdown Menu */}
           {/* IMPORTANT: outer wrapper must be pointer-events-none so it doesn't block page content below */}
-          <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 z-[100]">
+          <div className={`pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 ${isOpen ? 'z-[100]' : 'z-10'}`}>
             <motion.div
               initial={{ y: -430 }}
               animate={{ y: isOpen ? -20 : -430 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="w-[92vw] max-w-[520px] flex flex-col items-center pointer-events-auto"
+              className={`w-[92vw] max-w-[520px] flex flex-col items-center ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
             >
               {/* Top Menu Card with lime background */}
               <div className="bg-[#B3EB16] p-8 sm:p-10 w-full rounded-[45px] -mb-24 z-10 shadow-2xl">
@@ -150,7 +150,7 @@ export default function Navbar() {
                   sounds.playPop();
                   setIsOpen(!isOpen);
                 }}
-                className="relative w-full cursor-pointer select-none"
+                className="relative w-full cursor-pointer select-none pointer-events-auto"
               >
                 <img
                   src="/icons/menuDrop.svg"
@@ -184,16 +184,17 @@ export default function Navbar() {
           </div>
 
           {/* Right Side: Outline Action Buttons */}
-          <div className="pointer-events-auto flex items-center gap-2 sm:gap-3">
+          <div className="pointer-events-auto relative z-20 flex items-center gap-1.5 sm:gap-3 shrink-0">
             <button
               onClick={() => {
                 sounds.playBlip(700);
                 setIsJoinModalOpen(true);
               }}
               onMouseEnter={() => sounds.playHover()}
-              className="inline-flex px-3 py-1.5 sm:px-4 sm:py-2 border-2 border-white rounded-full text-xs sm:text-sm text-white uppercase font-bold tracking-tight hover:bg-white hover:text-black transition-all duration-300 cursor-pointer shadow-sm"
+              className="inline-flex px-2.5 py-1 sm:px-4 sm:py-2 border-2 border-white rounded-full text-[11px] sm:text-sm text-white uppercase font-bold tracking-tight hover:bg-white hover:text-black transition-all duration-300 cursor-pointer shadow-sm whitespace-nowrap"
             >
-              JOIN COMMUNITY
+              <span className="sm:hidden">JOIN</span>
+              <span className="hidden sm:inline">JOIN COMMUNITY</span>
             </button>
             <button
               type="button"
@@ -202,9 +203,10 @@ export default function Navbar() {
                 setIsCertModalOpen(true);
               }}
               onMouseEnter={() => sounds.playHover()}
-              className="hidden sm:inline-flex px-3.5 py-1.5 sm:px-4 sm:py-2 border-2 border-white bg-white text-black sm:bg-transparent sm:text-white rounded-full text-xs sm:text-sm uppercase font-bold tracking-tight hover:bg-white hover:text-black transition-all duration-300 cursor-pointer shadow-sm"
+              className="inline-flex px-2.5 py-1 sm:px-4 sm:py-2 border-2 border-white bg-white text-black sm:bg-transparent sm:text-white rounded-full text-[11px] sm:text-sm uppercase font-bold tracking-tight hover:bg-white hover:text-black transition-all duration-300 cursor-pointer shadow-sm whitespace-nowrap"
             >
-              DOWNLOAD CERTIFICATE
+              <span className="sm:hidden">CERTIFICATE</span>
+              <span className="hidden sm:inline">DOWNLOAD CERTIFICATE</span>
             </button>
           </div>
         </div>
