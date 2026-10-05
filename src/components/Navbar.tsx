@@ -12,10 +12,10 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { id: 1, title: 'EVENTS', href: '#events' },
-  { id: 2, title: 'WHO WE ARE', href: '#manifesto' },
-  { id: 3, title: 'FOUR PILLARS', href: '#pillars' },
-  { id: 4, title: 'CORE BUILDERS', href: '#builders' },
-  { id: 5, title: 'ON DEMAND & SPRINTS', href: '#contact' },
+  { id: 2, title: 'CERTIFICATE', href: '#certificate' },
+  { id: 3, title: 'WHO WE ARE', href: '#manifesto' },
+  { id: 4, title: 'FOUR PILLARS', href: '#pillars' },
+  { id: 5, title: 'CORE BUILDERS', href: '#builders' },
 ];
 
 const socialItems = [
@@ -96,12 +96,13 @@ export default function Navbar() {
           </div>
 
           {/* Center: Exact Hanging Flow Party Lime Dropdown Menu */}
-          <div className="pointer-events-auto absolute left-1/2 -translate-x-1/2 top-0 z-[100]">
+          {/* IMPORTANT: outer wrapper must be pointer-events-none so it doesn't block page content below */}
+          <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 z-[100]">
             <motion.div
               initial={{ y: -430 }}
               animate={{ y: isOpen ? -20 : -430 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="w-[92vw] max-w-[520px] flex flex-col items-center"
+              className="w-[92vw] max-w-[520px] flex flex-col items-center pointer-events-auto"
             >
               {/* Top Menu Card with lime background */}
               <div className="bg-[#B3EB16] p-8 sm:p-10 w-full rounded-[45px] -mb-24 z-10 shadow-2xl">
@@ -182,13 +183,21 @@ export default function Navbar() {
 
           {/* Right Side: Outline Action Buttons */}
           <div className="pointer-events-auto flex items-center gap-2 sm:gap-3">
+            <a
+              href="#certificate"
+              onMouseEnter={() => sounds.playHover()}
+              onClick={(e) => handleLinkClick(e, '#certificate')}
+              className="inline-flex px-3 py-1.5 sm:px-4 sm:py-2 border-2 border-[#0038ff] bg-[#0038ff] text-white rounded-full text-xs sm:text-sm uppercase font-bold tracking-tight hover:bg-[#002ecc] hover:scale-[1.03] transition-all duration-300 cursor-pointer shadow-md"
+            >
+              CERTIFICATE
+            </a>
             <button
               onClick={() => {
                 sounds.playBlip(700);
                 setIsJoinModalOpen(true);
               }}
               onMouseEnter={() => sounds.playHover()}
-              className="inline-flex px-3 py-1.5 sm:px-4 sm:py-2 border-2 border-white rounded-full text-xs sm:text-sm text-white uppercase font-bold tracking-tight hover:bg-white hover:text-black transition-all duration-300 cursor-pointer shadow-sm"
+              className="hidden sm:inline-flex px-3 py-1.5 sm:px-4 sm:py-2 border-2 border-white rounded-full text-xs sm:text-sm text-white uppercase font-bold tracking-tight hover:bg-white hover:text-black transition-all duration-300 cursor-pointer shadow-sm"
             >
               JOIN COMMUNITY
             </button>
@@ -196,7 +205,7 @@ export default function Navbar() {
               href="#contact"
               onMouseEnter={() => sounds.playHover()}
               onClick={(e) => handleLinkClick(e, '#contact')}
-              className="hidden xs:inline-flex px-4 py-2 border-2 border-white bg-white text-black sm:bg-transparent sm:text-white rounded-full text-xs sm:text-sm uppercase font-bold tracking-tight hover:bg-white hover:text-black transition-all duration-300 cursor-pointer shadow-sm"
+              className="hidden md:inline-flex px-4 py-2 border-2 border-white bg-white text-black sm:bg-transparent sm:text-white rounded-full text-xs sm:text-sm uppercase font-bold tracking-tight hover:bg-white hover:text-black transition-all duration-300 cursor-pointer shadow-sm"
             >
               ENROLL NOW
             </a>

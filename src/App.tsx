@@ -8,6 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import FeaturedEvent from './components/FeaturedEvent';
+import CertificateSection from './components/CertificateSection';
 import WhatIsLooseCode from './components/WhatIsLooseCode';
 import WhatsHappening from './components/WhatsHappening';
 import FlowFooter from './components/FlowFooter';
@@ -56,10 +57,14 @@ function HomePage() {
       <Navbar />
 
       {/* Hero & Featured Event 3D Deck Overlay Transition */}
-      <div ref={heroEventContainer} className="relative bg-[#080808]">
+      {/* Height must be 200vh so sticky z-pinned children collapse exactly here and never cover sections below */}
+      <div ref={heroEventContainer} className="relative bg-[#080808]" style={{ height: '200vh' }}>
         <Hero scrollYProgress={scrollYProgress} />
         <FeaturedEvent scrollYProgress={scrollYProgress} />
       </div>
+
+      {/* Event Certificate Generator */}
+      <CertificateSection />
 
       {/* What Is LooseCode: The 4 Pillars */}
       <WhatIsLooseCode />
