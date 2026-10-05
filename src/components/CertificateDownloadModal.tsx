@@ -4,6 +4,16 @@ import { X, Download, CheckCircle2, ExternalLink } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
 export const REGISTERED_CERTIFICATE_EMAILS = [
+  // St. Peter's College domain (@stpetershyd.com)
+  '23bk1a66f7@stpetershyd.com',
+  '23bk1a66j2@stpetershyd.com',
+  '23bk1a66j3@stpetershyd.com',
+  '23bk1a66d1@stpetershyd.com',
+  '23bk1a66g1@stpetershyd.com',
+  '23bk1a66g0@stpetershyd.com',
+  '23bk1a66f9@stpetershyd.com',
+
+  // Gmail domain fallback (@gmail.com)
   '23bk1a66f7@gmail.com',
   '23bk1a66j2@gmail.com',
   '23bk1a66j3@gmail.com',
@@ -170,11 +180,11 @@ export default function CertificateDownloadModal({
                   required
                   value={registeredMailId}
                   onChange={(e) => setRegisteredMailId(e.target.value)}
-                  placeholder="registered@example.com"
+                  placeholder="23bk1a66f7@stpetershyd.com"
                   className="w-full px-3.5 py-2.5 sm:py-2 rounded-xl bg-[#1a1a1e] border border-white/15 text-white placeholder-gray-500 text-base sm:text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                 />
                 <span className="block text-[11px] text-gray-400">
-                  The email used during Luma / event registration
+                  Enter your registered college or event email (@stpetershyd.com or @gmail.com)
                 </span>
               </div>
 
