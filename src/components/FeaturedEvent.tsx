@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence, MotionValue, useTransform } from 'framer-motion';
-import { ExternalLink, Zap, Trophy, Calendar, Sparkles } from 'lucide-react';
+import { ExternalLink, Zap, Trophy, Calendar, Download } from 'lucide-react';
 import { sounds } from '../utils/audio';
 import { ShinyButton } from '@/components/ui/shiny-button';
+import CertificateDownloadModal from './CertificateDownloadModal';
 
 export default function FeaturedEvent({
   scrollYProgress,
@@ -10,6 +11,7 @@ export default function FeaturedEvent({
   scrollYProgress?: MotionValue<number>;
 }) {
   const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
+  const [isCertModalOpen, setIsCertModalOpen] = useState(false);
 
   const rotate = useTransform(scrollYProgress || ({} as any), [0, 0.5], [5, 0]);
   const scale = useTransform(scrollYProgress || ({} as any), [0, 0.5], [0.85, 1]);
@@ -63,8 +65,9 @@ export default function FeaturedEvent({
                 setActiveTab('upcoming');
               }}
               onMouseEnter={() => sounds.playHover()}
-              className={`relative px-6 sm:px-8 py-2 sm:py-2.5 rounded-full text-sm sm:text-base font-medium transition-colors duration-200 cursor-pointer select-none ${activeTab === 'upcoming' ? 'text-black' : 'text-white hover:text-white/80'
-                }`}
+              className={`relative px-6 sm:px-8 py-2 sm:py-2.5 rounded-full text-sm sm:text-base font-medium transition-colors duration-200 cursor-pointer select-none ${
+                activeTab === 'upcoming' ? 'text-black' : 'text-white hover:text-white/80'
+              }`}
             >
               {activeTab === 'upcoming' && (
                 <motion.div
@@ -87,8 +90,9 @@ export default function FeaturedEvent({
                 setActiveTab('past');
               }}
               onMouseEnter={() => sounds.playHover()}
-              className={`relative px-6 sm:px-8 py-2 sm:py-2.5 rounded-full text-sm sm:text-base font-medium transition-colors duration-200 cursor-pointer select-none ${activeTab === 'past' ? 'text-black' : 'text-white hover:text-white/80'
-                }`}
+              className={`relative px-6 sm:px-8 py-2 sm:py-2.5 rounded-full text-sm sm:text-base font-medium transition-colors duration-200 cursor-pointer select-none ${
+                activeTab === 'past' ? 'text-black' : 'text-white hover:text-white/80'
+              }`}
             >
               {activeTab === 'past' && (
                 <motion.div
@@ -100,23 +104,23 @@ export default function FeaturedEvent({
               <span className="relative z-10 inline-flex items-start tracking-tight">
                 Past
                 <span className="text-[10px] sm:text-[11px] font-mono font-medium -top-1.5 relative ml-0.5">
-                  02
+                  01
                 </span>
               </span>
             </button>
           </div>
 
           <span className="hidden sm:inline-block font-mono text-[11px] text-gray-400 uppercase tracking-widest">
-            {activeTab === 'upcoming' ? '// 1 LIVE EVENT' : '// 0 PAST EVENTS'}
+            {activeTab === 'upcoming' ? '// 1 LIVE EVENT' : '// 1 PAST EVENT'}
           </span>
         </div>
 
         {/* Tab Content Display */}
         <AnimatePresence mode="wait">
           {activeTab === 'upcoming' ? (
-            /* Upcoming Events Card (Rizz & Code) */
+            /* Upcoming Event Card: Rizz & Code 2026 (Oct 1 - Oct 17) */
             <motion.div
-              key="upcoming-view"
+              key="upcoming-rizzcode-view"
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
@@ -176,21 +180,21 @@ export default function FeaturedEvent({
                     {/* Highlights */}
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-5 pt-5 border-t border-white/10 text-xs font-mono text-white">
                       <div className="flex items-center gap-2">
-                        <Zap size={15} className="text-white shrink-0" />
+                        <Zap size={15} className="text-[#bfff0a] shrink-0" />
                         <span>48H+ Sprint</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Trophy size={15} className="text-white shrink-0" />
-                        <span>Revealed Soon</span>
+                        <Calendar size={15} className="text-emerald-400 shrink-0" />
+                        <span>Oct 1 – 17</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Calendar size={15} className="text-white shrink-0" />
+                        <Trophy size={15} className="text-[#0052FF] shrink-0" />
                         <span>Virtual & Global</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Action Button - Shiny Button */}
+                  {/* Action Button: Register on Luma */}
                   <div className="pt-2">
                     <ShinyButton
                       href="https://luma.com/2tu7l2wx"
@@ -207,42 +211,136 @@ export default function FeaturedEvent({
               </div>
             </motion.div>
           ) : (
-            /* Clean Empty State for Past Events */
+            /* Past Event Card: Forge AI */
             <motion.div
-              key="past-empty-view"
+              key="past-forgeai-view"
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
-              className="w-full bg-[#141417] border border-white/15 rounded-[32px] sm:rounded-[40px] p-8 sm:p-12 text-center flex flex-col items-center justify-center min-h-[320px] relative overflow-hidden shadow-2xl"
+              className="w-full bg-[#141417] border border-white/15 rounded-[32px] sm:rounded-[40px] p-6 sm:p-8 md:p-10 shadow-2xl relative overflow-hidden group"
             >
-              <div className="absolute -top-32 -left-32 w-80 h-80 bg-[#0052FF]/10 rounded-full blur-3xl pointer-events-none" />
-              <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#B3EB16] mb-4">
-                <Sparkles size={28} />
+              {/* Ambient Glows */}
+              <div className="absolute -top-32 -left-32 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-[#0052FF]/20 rounded-full blur-3xl pointer-events-none" />
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                {/* Left Column (Desktop): Event Details & Action */}
+                <div className="order-2 lg:order-1 lg:col-span-7 flex flex-col justify-between space-y-6">
+                  <div>
+                    {/* Compact Badges */}
+                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border border-emerald-500/30">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                        CONCLUDED CHALLENGE
+                      </span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#0052FF]/20 text-[#7C9BFF] font-mono text-[10px] sm:text-[11px] font-bold uppercase border border-[#0038ff]/40">
+                        AI TRACK
+                      </span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-white/90 font-mono text-[10px] sm:text-[11px] font-bold uppercase border border-white/10">
+                        HYDERABAD
+                      </span>
+                    </div>
+
+                    {/* Event Title & Tagline */}
+                    <h3 className="text-4xl sm:text-5xl md:text-6xl font-extrabold uppercase tracking-tight text-white font-['Oswald',sans-serif] leading-none">
+                      FORGE AI
+                    </h3>
+                    <p className="text-sm sm:text-base font-mono font-bold text-[#7C9BFF] mt-2 tracking-wide uppercase">
+                      AI Engineering Challenge • "Build • Integrate • Ship"
+                    </p>
+
+                    {/* Description & 3-Day Event Breakdown */}
+                    <p className="text-xs sm:text-sm text-gray-300 font-sans mt-3 leading-relaxed max-w-xl">
+                      A fast-paced 3-day hybrid AI engineering challenge taking builders from ideation to live on-ground deployment:
+                    </p>
+
+                    <div className="mt-3.5 space-y-2.5 text-xs sm:text-sm font-sans text-gray-300">
+                      <div className="flex items-start gap-2.5">
+                        <span className="px-2 py-0.5 rounded-md bg-[#0052FF]/20 text-[#7C9BFF] font-mono text-[10px] font-bold shrink-0 mt-0.5 border border-[#0052FF]/30">
+                          DAY 01
+                        </span>
+                        <p className="leading-snug text-gray-300">
+                          <strong className="text-white">Idea Submission & Selection:</strong> Problem statement formulation, architectural proposals, and shortlist evaluation.
+                        </p>
+                      </div>
+
+                      <div className="flex items-start gap-2.5">
+                        <span className="px-2 py-0.5 rounded-md bg-[#0052FF]/20 text-[#7C9BFF] font-mono text-[10px] font-bold shrink-0 mt-0.5 border border-[#0052FF]/30">
+                          DAY 02
+                        </span>
+                        <p className="leading-snug text-gray-300">
+                          <strong className="text-white">Round Building:</strong> Rapid prototype development, model integration, agent pipelines, and functional MVP creation.
+                        </p>
+                      </div>
+
+                      <div className="flex items-start gap-2.5">
+                        <span className="px-2 py-0.5 rounded-md bg-[#0052FF]/20 text-[#7C9BFF] font-mono text-[10px] font-bold shrink-0 mt-0.5 border border-[#0052FF]/30">
+                          DAY 03
+                        </span>
+                        <p className="leading-snug text-gray-300">
+                          <strong className="text-white">Offline Grand Event:</strong> In-person finale in Hyderabad featuring live project demos, jury evaluation, and winner showcases.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Highlights */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4 pt-4 border-t border-white/10 text-xs font-mono text-white">
+                      <div className="flex items-center gap-2">
+                        <Zap size={15} className="text-[#bfff0a] shrink-0" />
+                        <span>3-Day Challenge</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Calendar size={15} className="text-emerald-400 shrink-0" />
+                        <span>Hyderabad Finale</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Trophy size={15} className="text-[#0052FF] shrink-0" />
+                        <span>Concluded</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons: Download Participation Certificate */}
+                  <div className="pt-2 flex flex-wrap items-center gap-3">
+                    <ShinyButton
+                      onClick={() => {
+                        sounds.playBlip(700);
+                        setIsCertModalOpen(true);
+                      }}
+                      className="uppercase tracking-wider font-mono font-bold text-xs sm:text-sm"
+                    >
+                      DOWNLOAD PARTICIPATION CERTIFICATE
+                      <Download size={16} />
+                    </ShinyButton>
+                  </div>
+                </div>
+
+                {/* Right Column (Desktop): Banner Image */}
+                <div className="order-1 lg:order-2 lg:col-span-5 flex justify-center">
+                  <div className="relative block w-full max-w-[360px] aspect-square rounded-[24px] sm:rounded-[28px] overflow-hidden border border-white/20 shadow-2xl group/img">
+                    <img
+                      src="/images/forgeai_banner.png"
+                      alt="Forge AI - AI Engineering Challenge Banner"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"
+                    />
+                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-white font-mono text-[10px] uppercase font-bold tracking-wider">
+                      CONCLUDED
+                    </div>
+                  </div>
+                </div>
               </div>
-              <span className="text-xs font-mono text-[#B3EB16] font-bold uppercase tracking-widest mb-1">
-                // ARCHIVE STATUS
-              </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white font-['Oswald',sans-serif]">
-                NO PAST EVENTS YET
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-400 font-sans mt-2 max-w-md leading-relaxed">
-                LooseCode is just getting started! Our upcoming hackathons, sprint showcases, and winner archives will appear here after completion.
-              </p>
-              <button
-                onClick={() => {
-                  sounds.playPop();
-                  setActiveTab('upcoming');
-                }}
-                onMouseEnter={() => sounds.playHover()}
-                className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#B3EB16] text-black font-extrabold text-xs uppercase tracking-wider hover:bg-white transition-all cursor-pointer shadow-lg"
-              >
-                <span>VIEW UPCOMING EVENT</span>
-              </button>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
+
+      {/* Certificate Download Details Pop-up Modal for Forge AI */}
+      <CertificateDownloadModal
+        isOpen={isCertModalOpen}
+        onClose={() => setIsCertModalOpen(false)}
+        eventName="FORGE AI"
+      />
     </motion.div>
   );
 }

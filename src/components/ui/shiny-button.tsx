@@ -7,6 +7,7 @@ interface ShinyButtonProps {
   href?: string
   target?: string
   rel?: string
+  download?: string | boolean
 }
 
 export function ShinyButton({
@@ -16,6 +17,7 @@ export function ShinyButton({
   href,
   target,
   rel,
+  download,
 }: ShinyButtonProps) {
   const content = (
     <>
@@ -211,6 +213,7 @@ export function ShinyButton({
       {href ? (
         <a
           href={href}
+          download={download}
           target={target}
           rel={rel}
           className={`shiny-cta ${className}`}

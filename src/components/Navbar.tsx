@@ -12,10 +12,10 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { id: 1, title: 'EVENTS', href: '#events' },
-  { id: 2, title: 'CERTIFICATE', href: '#certificate' },
-  { id: 3, title: 'WHO WE ARE', href: '#manifesto' },
-  { id: 4, title: 'FOUR PILLARS', href: '#pillars' },
-  { id: 5, title: 'CORE BUILDERS', href: '#builders' },
+  { id: 2, title: 'WHO WE ARE', href: '#manifesto' },
+  { id: 3, title: 'FOUR PILLARS', href: '#pillars' },
+  { id: 4, title: 'CORE BUILDERS', href: '#builders' },
+  { id: 5, title: 'ON DEMAND & SPRINTS', href: '#contact' },
 ];
 
 const socialItems = [
@@ -183,21 +183,13 @@ export default function Navbar() {
 
           {/* Right Side: Outline Action Buttons */}
           <div className="pointer-events-auto flex items-center gap-2 sm:gap-3">
-            <a
-              href="#certificate"
-              onMouseEnter={() => sounds.playHover()}
-              onClick={(e) => handleLinkClick(e, '#certificate')}
-              className="inline-flex px-3 py-1.5 sm:px-4 sm:py-2 border-2 border-[#0038ff] bg-[#0038ff] text-white rounded-full text-xs sm:text-sm uppercase font-bold tracking-tight hover:bg-[#002ecc] hover:scale-[1.03] transition-all duration-300 cursor-pointer shadow-md"
-            >
-              CERTIFICATE
-            </a>
             <button
               onClick={() => {
                 sounds.playBlip(700);
                 setIsJoinModalOpen(true);
               }}
               onMouseEnter={() => sounds.playHover()}
-              className="hidden sm:inline-flex px-3 py-1.5 sm:px-4 sm:py-2 border-2 border-white rounded-full text-xs sm:text-sm text-white uppercase font-bold tracking-tight hover:bg-white hover:text-black transition-all duration-300 cursor-pointer shadow-sm"
+              className="inline-flex px-3 py-1.5 sm:px-4 sm:py-2 border-2 border-white rounded-full text-xs sm:text-sm text-white uppercase font-bold tracking-tight hover:bg-white hover:text-black transition-all duration-300 cursor-pointer shadow-sm"
             >
               JOIN COMMUNITY
             </button>

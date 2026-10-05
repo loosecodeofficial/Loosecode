@@ -8,7 +8,6 @@ gsap.registerPlugin(ScrollTrigger);
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import FeaturedEvent from './components/FeaturedEvent';
-import CertificateSection from './components/CertificateSection';
 import WhatIsLooseCode from './components/WhatIsLooseCode';
 import WhatsHappening from './components/WhatsHappening';
 import FlowFooter from './components/FlowFooter';
@@ -61,9 +60,6 @@ function HomePage() {
         <Hero scrollYProgress={scrollYProgress} />
         <FeaturedEvent scrollYProgress={scrollYProgress} />
       </div>
-
-      {/* Event Certificate Generator */}
-      <CertificateSection />
 
       {/* What Is LooseCode: The 4 Pillars */}
       <WhatIsLooseCode />
