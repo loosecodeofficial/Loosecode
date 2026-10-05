@@ -35,6 +35,8 @@ function HomePage() {
       smoothWheel: true,
     });
 
+    (window as any).lenis = lenis;
+
     lenis.on('scroll', ScrollTrigger.update);
 
     const tickerCb = (time: number) => {
@@ -45,6 +47,7 @@ function HomePage() {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      (window as any).lenis = null;
       gsap.ticker.remove(tickerCb);
       lenis.destroy();
     };

@@ -43,6 +43,23 @@ export default function CertificateDownloadModal({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
+  // Lock background page scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      const originalBodyOverflow = document.body.style.overflow;
+      const originalHtmlOverflow = document.documentElement.style.overflow;
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      (window as any).lenis?.stop();
+
+      return () => {
+        document.body.style.overflow = originalBodyOverflow;
+        document.documentElement.style.overflow = originalHtmlOverflow;
+        (window as any).lenis?.start();
+      };
+    }
+  }, [isOpen]);
+
   const handleClose = () => {
     sounds.playPop();
     setError(null);

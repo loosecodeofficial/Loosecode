@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink } from 'lucide-react';
 import { sounds } from '../utils/audio';
@@ -8,6 +9,32 @@ interface JoinCommunityModalProps {
 }
 
 export default function JoinCommunityModal({ isOpen, onClose }: JoinCommunityModalProps) {
+  // Lock background scroll and close on Escape
+  useEffect(() => {
+    if (isOpen) {
+      const originalBodyOverflow = document.body.style.overflow;
+      const originalHtmlOverflow = document.documentElement.style.overflow;
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      (window as any).lenis?.stop();
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          sounds.playPop();
+          onClose();
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        document.body.style.overflow = originalBodyOverflow;
+        document.documentElement.style.overflow = originalHtmlOverflow;
+        (window as any).lenis?.start();
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
