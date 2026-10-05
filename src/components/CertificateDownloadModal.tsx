@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Download, CheckCircle2 } from 'lucide-react';
+import { X, Download, CheckCircle2, ExternalLink } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
-// PLACEHOLDER: Update this URL with your provided image/certificate links
-export const CERTIFICATE_IMAGE_URL = '/images/certificate_template.jpg';
+export const REGISTERED_CERTIFICATE_EMAILS = [
+  '23bk1a66f7@gmail.com',
+  '23bk1a66j2@gmail.com',
+  '23bk1a66j3@gmail.com',
+  '23bk1a66d1@gmail.com',
+  '23bk1a66g1@gmail.com',
+  '23bk1a66g0@gmail.com',
+  '23bk1a66f9@gmail.com',
+];
 
 interface CertificateDownloadModalProps {
   isOpen: boolean;
@@ -16,11 +23,12 @@ interface CertificateDownloadModalProps {
 export default function CertificateDownloadModal({
   isOpen,
   onClose,
-  certificateUrl = CERTIFICATE_IMAGE_URL,
+  certificateUrl,
   eventName = 'FORGE AI',
 }: CertificateDownloadModalProps) {
   const [registeredMailId, setRegisteredMailId] = useState('');
   const [registeredMobile, setRegisteredMobile] = useState('');
+  const [resolvedUrl, setResolvedUrl] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -46,22 +54,41 @@ export default function CertificateDownloadModal({
     e.preventDefault();
     setError(null);
 
+    const email = registeredMailId.trim().toLowerCase();
+    const mobile = registeredMobile.trim();
+
     // Basic validation
-    if (!registeredMailId.trim()) {
+    if (!email) {
       setError('Please enter your Register Mail ID');
       return;
     }
-    if (!registeredMobile.trim()) {
+    if (!mobile) {
       setError('Please enter your Register Mobile Number');
+      return;
+    }
+
+    // Check if email matches registered list
+    const isRegistered = REGISTERED_CERTIFICATE_EMAILS.some(
+      (regEmail) => regEmail.toLowerCase() === email
+    );
+
+    if (!isRegistered) {
+      sounds.playPop();
+      setError('No certificate found for this registered email ID. Please check your email or contact support.');
       return;
     }
 
     sounds.playBlip(700);
 
+    // Extract roll number (e.g. 23bk1a66f7 from 23bk1a66f7@gmail.com)
+    const rollNumber = email.split('@')[0];
+    const targetFile = certificateUrl || `/certificates/${rollNumber}.png`;
+    setResolvedUrl(targetFile);
+
     // Trigger download of the certificate
     const link = document.createElement('a');
-    link.href = certificateUrl;
-    link.download = `${eventName.replace(/\s+/g, '_')}_Participation_Certificate.jpg`;
+    link.href = targetFile;
+    link.download = `${rollNumber.toUpperCase()}_${eventName.replace(/\s+/g, '_')}_Certificate.png`;
     link.target = '_blank';
     link.rel = 'noreferrer';
     document.body.appendChild(link);
@@ -211,23 +238,23 @@ export default function CertificateDownloadModal({
 
               <div className="pt-3 flex flex-col sm:flex-row gap-2.5 justify-center">
                 <a
-                  href={certificateUrl}
-                  download="LooseCode_Participation_Certificate.jpg"
+                  href={resolvedUrl || certificateUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors cursor-pointer"
                 >
+                  <ExternalLink size={15} />
+                  <span>View Certificate</span>
+                </a>
+
+                <a
+                  href={resolvedUrl || certificateUrl}
+                  download={resolvedUrl ? resolvedUrl.split('/').pop() : 'ForgeAI_Certificate.png'}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#0052FF] hover:bg-[#0040cc] text-white text-sm font-semibold transition-colors cursor-pointer shadow-md"
+                >
                   <Download size={15} />
                   <span>Download Again</span>
                 </a>
-
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className="px-5 py-2.5 rounded-xl bg-[#0052FF] hover:bg-[#0040cc] text-white text-sm font-semibold transition-colors cursor-pointer"
-                >
-                  Done
-                </button>
               </div>
             </div>
           )}
