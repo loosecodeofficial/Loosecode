@@ -121,21 +121,6 @@ export default function Navbar() {
                       <span className="w-full border-b border-[#1c1c1c]/20" />
                     </div>
                   ))}
-                  <div className="flex py-2 flex-col">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsOpen(false);
-                        sounds.playBlip(750);
-                        setIsCertModalOpen(true);
-                      }}
-                      onMouseEnter={() => sounds.playHover()}
-                      className="text-left cursor-pointer w-full"
-                    >
-                      <LooseCodeTextHover title="DOWNLOAD CERTIFICATE" />
-                    </button>
-                    <span className="w-full border-b border-[#1c1c1c]/20" />
-                  </div>
                 </div>
 
                 {/* Social Icons row */}
@@ -219,7 +204,7 @@ export default function Navbar() {
               onMouseEnter={() => sounds.playHover()}
               className="hidden sm:inline-flex px-3.5 py-1.5 sm:px-4 sm:py-2 border-2 border-white bg-white text-black sm:bg-transparent sm:text-white rounded-full text-xs sm:text-sm uppercase font-bold tracking-tight hover:bg-white hover:text-black transition-all duration-300 cursor-pointer shadow-sm"
             >
-              <span className="hidden md:inline">DOWNLOAD </span>CERTIFICATE
+              DOWNLOAD CERTIFICATE
             </button>
           </div>
         </div>
