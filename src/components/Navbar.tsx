@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { sounds } from '../utils/audio';
 import logoImg from '../assets/logo.png';
 import JoinCommunityModal from './JoinCommunityModal';
+import CertificateDownloadModal from './CertificateDownloadModal';
 
 interface NavItem {
   id: number;
@@ -46,6 +47,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
+  const [isCertModalOpen, setIsCertModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -119,6 +121,21 @@ export default function Navbar() {
                       <span className="w-full border-b border-[#1c1c1c]/20" />
                     </div>
                   ))}
+                  <div className="flex py-2 flex-col">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsOpen(false);
+                        sounds.playBlip(750);
+                        setIsCertModalOpen(true);
+                      }}
+                      onMouseEnter={() => sounds.playHover()}
+                      className="text-left cursor-pointer w-full"
+                    >
+                      <LooseCodeTextHover title="DOWNLOAD CERTIFICATE" />
+                    </button>
+                    <span className="w-full border-b border-[#1c1c1c]/20" />
+                  </div>
                 </div>
 
                 {/* Social Icons row */}
@@ -193,14 +210,17 @@ export default function Navbar() {
             >
               JOIN COMMUNITY
             </button>
-            <a
-              href="#contact"
+            <button
+              type="button"
+              onClick={() => {
+                sounds.playBlip(750);
+                setIsCertModalOpen(true);
+              }}
               onMouseEnter={() => sounds.playHover()}
-              onClick={(e) => handleLinkClick(e, '#contact')}
-              className="hidden md:inline-flex px-4 py-2 border-2 border-white bg-white text-black sm:bg-transparent sm:text-white rounded-full text-xs sm:text-sm uppercase font-bold tracking-tight hover:bg-white hover:text-black transition-all duration-300 cursor-pointer shadow-sm"
+              className="hidden sm:inline-flex px-3.5 py-1.5 sm:px-4 sm:py-2 border-2 border-white bg-white text-black sm:bg-transparent sm:text-white rounded-full text-xs sm:text-sm uppercase font-bold tracking-tight hover:bg-white hover:text-black transition-all duration-300 cursor-pointer shadow-sm"
             >
-              ENROLL NOW
-            </a>
+              <span className="hidden md:inline">DOWNLOAD </span>CERTIFICATE
+            </button>
           </div>
         </div>
       </header>
@@ -209,6 +229,13 @@ export default function Navbar() {
       <JoinCommunityModal
         isOpen={isJoinModalOpen}
         onClose={() => setIsJoinModalOpen(false)}
+      />
+
+      {/* Certificate Download Modal */}
+      <CertificateDownloadModal
+        isOpen={isCertModalOpen}
+        onClose={() => setIsCertModalOpen(false)}
+        eventName="FORGE AI"
       />
     </>
   );

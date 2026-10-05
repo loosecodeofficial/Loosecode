@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Download, CheckCircle2, ExternalLink } from 'lucide-react';
+import { X, Download, CheckCircle2, ExternalLink, ChevronDown } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
 export const REGISTERED_CERTIFICATE_EMAILS = [
@@ -26,11 +26,18 @@ export default function CertificateDownloadModal({
   certificateUrl,
   eventName = 'FORGE AI',
 }: CertificateDownloadModalProps) {
+  const [selectedEvent, setSelectedEvent] = useState(eventName || 'FORGE AI');
   const [registeredMailId, setRegisteredMailId] = useState('');
   const [registeredMobile, setRegisteredMobile] = useState('');
   const [resolvedUrl, setResolvedUrl] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (eventName) {
+      setSelectedEvent(eventName);
+    }
+  }, [eventName]);
 
   // Close modal on Escape key
   useEffect(() => {
@@ -97,7 +104,7 @@ export default function CertificateDownloadModal({
 
     sounds.playBlip(700);
 
-    // Extract roll number (e.g. 23bk1a66f7 from 23bk1a66f7@gmail.com)
+    // Extract roll number (e.g. 23bk1a66f7 from 23bk1a66f7@stpetershyd.com)
     const rollNumber = email.split('@')[0];
     const targetFile = certificateUrl || `/certificates/${rollNumber}.png`;
     setResolvedUrl(targetFile);
@@ -105,7 +112,7 @@ export default function CertificateDownloadModal({
     // Trigger download of the certificate
     const link = document.createElement('a');
     link.href = targetFile;
-    link.download = `${rollNumber.toUpperCase()}_${eventName.replace(/\s+/g, '_')}_Certificate.png`;
+    link.download = `${rollNumber.toUpperCase()}_${selectedEvent.replace(/\s+/g, '_')}_Certificate.png`;
     link.target = '_blank';
     link.rel = 'noreferrer';
     document.body.appendChild(link);
@@ -142,7 +149,7 @@ export default function CertificateDownloadModal({
           <div className="flex items-start justify-between pb-4 border-b border-white/10">
             <div>
               <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-blue-400">
-                {eventName} • Participation Certificate
+                {selectedEvent} • Participation Certificate
               </span>
               <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white mt-0.5">
                 Download Certificate
@@ -163,7 +170,7 @@ export default function CertificateDownloadModal({
             /* Form View */
             <form onSubmit={handleSubmit} className="mt-5 space-y-4">
               <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
-                Please enter your registered event details below to download your official {eventName} participation certificate.
+                Please select your event and enter your registered details below to download your official certificate.
               </p>
 
               {/* Error Message */}
@@ -173,7 +180,35 @@ export default function CertificateDownloadModal({
                 </div>
               )}
 
-              {/* Field 1: Register Mail ID */}
+              {/* Field 1: Select Event */}
+              <div className="space-y-1.5">
+                <label
+                  htmlFor="cert-event-select"
+                  className="block text-xs font-semibold uppercase tracking-wide text-gray-200"
+                >
+                  Select Event <span className="text-blue-400">*</span>
+                </label>
+                <div className="relative">
+                  <select
+                    id="cert-event-select"
+                    value={selectedEvent}
+                    onChange={(e) => setSelectedEvent(e.target.value)}
+                    className="w-full px-3.5 py-2.5 sm:py-2 rounded-xl bg-[#1a1a1e] border border-white/15 text-white text-base sm:text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors appearance-none cursor-pointer pr-10"
+                  >
+                    <option value="FORGE AI" className="bg-[#121214] text-white">
+                      FORGE AI
+                    </option>
+                    <option value="RIZZ & CODE 2026" disabled className="bg-[#121214] text-gray-500">
+                      RIZZ & CODE 2026 (Upcoming)
+                    </option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                    <ChevronDown size={16} />
+                  </div>
+                </div>
+              </div>
+
+              {/* Field 2: Register Mail ID */}
               <div className="space-y-1.5">
                 <label
                   htmlFor="cert-registered-mail-id"
@@ -207,9 +242,6 @@ export default function CertificateDownloadModal({
                   onChange={(e) => setRegisteredMobile(e.target.value)}
                   className="w-full px-3.5 py-2.5 sm:py-2 rounded-xl bg-[#1a1a1e] border border-white/15 text-white placeholder-gray-500 text-base sm:text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                 />
-                <span className="block text-[11px] text-gray-400">
-                  Mobile number entered when registering
-                </span>
               </div>
 
               {/* Action Buttons */}
@@ -261,7 +293,7 @@ export default function CertificateDownloadModal({
 
                 <a
                   href={resolvedUrl || certificateUrl}
-                  download={resolvedUrl ? resolvedUrl.split('/').pop() : 'ForgeAI_Certificate.png'}
+                  download={resolvedUrl ? resolvedUrl.split('/').pop() : `${selectedEvent.replace(/\s+/g, '_')}_Certificate.png`}
                   className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#0052FF] hover:bg-[#0040cc] text-white text-sm font-semibold transition-colors cursor-pointer shadow-md"
                 >
                   <Download size={15} />
