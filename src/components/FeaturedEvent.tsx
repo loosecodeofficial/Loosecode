@@ -11,14 +11,14 @@ export default function FeaturedEvent({
 }) {
   const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
 
-  const rotate = useTransform(scrollYProgress || ({} as any), [0, 1], [5, 0]);
-  const scale = useTransform(scrollYProgress || ({} as any), [0, 1], [0.8, 1]);
+  const rotate = useTransform(scrollYProgress || ({} as any), [0, 0.5], [5, 0]);
+  const scale = useTransform(scrollYProgress || ({} as any), [0, 0.5], [0.85, 1]);
 
   return (
     <motion.div
       style={scrollYProgress ? { scale, rotate } : {}}
       id="events"
-      className="w-full min-h-screen bg-[#0d0d0d] text-white sticky top-0 left-0 z-20 pt-20 sm:pt-24 md:pt-28 pb-16 px-4 sm:px-8 md:px-12 lg:px-16 flex flex-col justify-center border-t border-white/10 origin-center select-none overflow-hidden"
+      className="w-full min-h-screen bg-[#0d0d0d] text-white relative z-20 pt-20 sm:pt-24 md:pt-28 pb-16 px-4 sm:px-8 md:px-12 lg:px-16 flex flex-col justify-center border-t border-white/10 origin-center select-none"
     >
       <div className="max-w-6xl mx-auto w-full flex flex-col justify-center">
         {/* Top Header: EVENTS + Subtitle */}

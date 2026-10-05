@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import path from 'path';
 import http from 'http';
 import { generateCertificate, validateNameInput } from '../src/server/certificateService.js';
+import { validateNameInput as validateClientNameInput } from '../src/utils/clientCertificateService.js';
 import { app } from '../src/server/app.js';
 
 describe('Certificate Service & API Tests', () => {
@@ -134,7 +135,17 @@ describe('Certificate Service & API Tests', () => {
     assert.equal(body.error, 'Name cannot be empty or only spaces');
   });
 
-  test('13. Teardown HTTP Test Server', () => {
+  test('13. Client Certificate validation parity', () => {
+    assert.equal(validateClientNameInput('').valid, false);
+    assert.equal(validateClientNameInput('   ').valid, false);
+    assert.equal(validateClientNameInput('A').valid, false);
+    assert.equal(validateClientNameInput('A'.repeat(61)).valid, false);
+    const valid = validateClientNameInput('Kiran Teja');
+    assert.equal(valid.valid, true);
+    assert.equal(valid.name, 'Kiran Teja');
+  });
+
+  test('14. Teardown HTTP Test Server', () => {
     server.close();
   });
 });

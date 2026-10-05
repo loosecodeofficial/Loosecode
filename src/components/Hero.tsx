@@ -7,8 +7,8 @@ export default function Hero({
 }: {
   scrollYProgress?: MotionValue<number>;
 }) {
-  const scale = useTransform(scrollYProgress || ({} as any), [0, 1], [1, 0.8]);
-  const rotate = useTransform(scrollYProgress || ({} as any), [0, 1], [0, -5]);
+  const scale = useTransform(scrollYProgress || ({} as any), [0, 0.5], [1, 0.85]);
+  const rotate = useTransform(scrollYProgress || ({} as any), [0, 0.5], [0, -5]);
 
   return (
     <motion.div

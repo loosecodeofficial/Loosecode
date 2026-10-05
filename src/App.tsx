@@ -57,8 +57,7 @@ function HomePage() {
       <Navbar />
 
       {/* Hero & Featured Event 3D Deck Overlay Transition */}
-      {/* Height must be 200vh so sticky z-pinned children collapse exactly here and never cover sections below */}
-      <div ref={heroEventContainer} className="relative bg-[#080808]" style={{ height: '200vh' }}>
+      <div ref={heroEventContainer} className="relative bg-[#080808]">
         <Hero scrollYProgress={scrollYProgress} />
         <FeaturedEvent scrollYProgress={scrollYProgress} />
       </div>

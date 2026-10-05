@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Download, Award, CheckCircle2, AlertCircle, Loader2, Sparkles, RefreshCw } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
+import { generateCertificateClient } from '../utils/clientCertificateService';
+
 export default function CertificateSection() {
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
@@ -37,20 +39,7 @@ export default function CertificateSection() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/certificates/generate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({ name: trimmedName }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok || data.error) {
-        throw new Error(data.error || 'Failed to generate certificate');
-      }
+      const data = await generateCertificateClient(trimmedName);
 
       setPdfDataUrl(data.pdfBase64);
       setPreviewDataUrl(data.previewDataUrl || data.pdfBase64);
@@ -59,7 +48,15 @@ export default function CertificateSection() {
       sounds.playBlip(900);
     } catch (err: any) {
       console.error('Certificate generation error:', err);
-      setError(err.message || 'An unexpected error occurred. Please try again.');
+      const errorMessage =
+        typeof err === 'string'
+          ? err
+          : err?.message
+          ? err.message
+          : typeof err?.error === 'string'
+          ? err.error
+          : 'An unexpected error occurred. Please try again.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -68,12 +65,34 @@ export default function CertificateSection() {
   const handleDownload = () => {
     if (!pdfDataUrl) return;
     sounds.playBlip(800);
-    const link = document.createElement('a');
-    link.href = pdfDataUrl;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+
+    try {
+      // Convert base64 data URI to Blob for maximum browser compatibility
+      const base64Parts = pdfDataUrl.split(',');
+      const byteCharacters = atob(base64Parts[1] || base64Parts[0]);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      const blobUrl = URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+    } catch {
+      const link = document.createElement('a');
+      link.href = pdfDataUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   const handleReset = () => {
@@ -85,7 +104,7 @@ export default function CertificateSection() {
   };
 
   return (
-    <section id="certificate" className="relative z-30 w-full py-24 px-5 sm:px-10 bg-[#080808] text-white overflow-hidden select-text">
+    <section id="certificate" className="relative z-20 w-full py-24 px-5 sm:px-10 bg-[#080808] text-white overflow-hidden select-text">
       {/* Background Decorative Gradients */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#0038ff]/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#B3EB16]/5 rounded-full blur-[120px] pointer-events-none" />

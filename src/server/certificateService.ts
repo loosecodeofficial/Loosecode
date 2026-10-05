@@ -19,8 +19,27 @@ export interface CertificateConfig {
   };
 }
 
+function resolveAssetPath(primaryRelPath: string, alternatePaths: string[] = []): string {
+  const currentDir = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([a-zA-Z]:)/, '$1'));
+  const candidates = [
+    path.resolve(process.cwd(), primaryRelPath),
+    path.resolve(currentDir, '../../', primaryRelPath),
+    path.resolve(currentDir, '../', primaryRelPath),
+    ...alternatePaths.map((alt) => path.resolve(process.cwd(), alt)),
+    ...alternatePaths.map((alt) => path.resolve(currentDir, '../../', alt)),
+  ];
+
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) return candidate;
+  }
+  return path.resolve(process.cwd(), primaryRelPath);
+}
+
 export const certificateConfig: CertificateConfig = {
-  templatePath: path.resolve(process.cwd(), 'public/images/certificate_template.jpg'),
+  templatePath: resolveAssetPath('public/images/certificate_template.jpg', [
+    'src/assets/certificate_template.jpg',
+    'dist/images/certificate_template.jpg',
+  ]),
   canvasWidth: 1024,
   canvasHeight: 724,
   name: {
@@ -29,7 +48,9 @@ export const certificateConfig: CertificateConfig = {
     maxWidth: 640,
     defaultFontSize: 32, // Reduced default font size for optimal clearance and proportion
     minFontSize: 16,
-    fontPath: path.resolve(process.cwd(), 'public/fonts/formula/PPFormula-CondensedBlack.ttf'),
+    fontPath: resolveAssetPath('public/fonts/formula/PPFormula-CondensedBlack.ttf', [
+      'dist/fonts/formula/PPFormula-CondensedBlack.ttf',
+    ]),
     color: { r: 0.03, g: 0.03, b: 0.03 },
     alignment: 'center',
   },
