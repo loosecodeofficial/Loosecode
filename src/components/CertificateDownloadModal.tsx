@@ -189,9 +189,6 @@ export default function CertificateDownloadModal({
                   onChange={(e) => setRegisteredMailId(e.target.value)}
                   className="w-full px-3.5 py-2.5 sm:py-2 rounded-xl bg-[#1a1a1e] border border-white/15 text-white placeholder-gray-500 text-base sm:text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                 />
-                <span className="block text-[11px] text-gray-400">
-                  Enter your registered college email (@stpetershyd.com)
-                </span>
               </div>
 
               {/* Field 3: Register Mobile Number */}
